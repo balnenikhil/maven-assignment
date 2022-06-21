@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+   <title>Students List</title>
+    <style>
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #408eb8;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}
+</style>
+</head>
+
+<body>
+<ul>
+    <li><a th:href="@{/index}">Home</a></li>
+    <li><a th:href="@{/students/list}">Students</a></li>
+    <li><a th:href="@{/courses/list}">Courses</a></li>
+    <li style="float:right"><form action="#" th:action="@{/logout}" method="POST">
+
+        <input type="submit" value="Logout" class="btn mt-2" />
+
+    </form></li>
+</ul>
+<div class="container">
+    <br><br>
+<h3 style="text-align:center">Students List</h3>
+<hr>
+    <br><br>
+<table class="table table-bordered table-striped">
+    <thead class = "thead-dark">
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <div sec:authorize="hasRole('ROLE_ADMIN')">
+            <th>Student Actions</th></div>
+        <div sec:authorize="hasRole('ROLE_ADMIN')">
+            <th>Course Actions</th></div>
+        <th>Registered Courses</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="tempStudent : ${students}">
+
+        <td th:text="${tempStudent.firstName}"></td>
+        <td th:text="${tempStudent.lastName}"></td>
+        <td th:text="${tempStudent.email}"></td>
+        <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <td>
+
+            <a th:href = "@{/students/updateStudentForm(studentId=${tempStudent.studentId})}"
+               class="btn btn-info btn-sm">update</a>
+            <a th:href = "@{/students/delete(studentId=${tempStudent.studentId})}"
+               class="btn btn-danger btn-sm" onclick="if(!(confirm('Are you sure you want to delete ?'))) return false">delete</a>
+        </td>
+        </div>
+        <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <td>
+            <a th:href = "@{/students/addCourse(studentId=${tempStudent.studentId})}"
+               class="btn btn-info btn-sm">add course</a>
+            <a th:href = "@{/students/removeCourse(studentId=${tempStudent.studentId})}"
+               class="btn btn-info btn-sm">remove course</a>
+        </td>
+        </div>
+        <td>
+            <a th:href = "@{/students/getCourses(studentId=${tempStudent.studentId})}"
+               class="btn btn-info btn-sm">get courses</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+    <a th:href="@{/students/studentForm}"
+       class="btn btn-primary btn-sm mb-3">
+        Add Student
+    </a>
+    <a th:href="@{/courses/courseForm}"
+       class="btn btn-primary btn-sm mb-3">
+        Add Course
+    </a></div>
+</div>
+</body>
+
+</html>

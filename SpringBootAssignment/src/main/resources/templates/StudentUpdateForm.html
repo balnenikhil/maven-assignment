@@ -1,0 +1,101 @@
+
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+  <title>Save Student</title>
+  <style>
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #408eb8;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}
+</style>
+</head>
+
+<body>
+<ul>
+  <li><a th:href="@{/index}">Home</a></li>
+  <li><a th:href="@{/students/list}">Students</a></li>
+  <li><a th:href="@{/courses/list}">Courses</a></li>
+  <li style="float:right"><form action="#" th:action="@{/logout}" method="POST">
+
+    <input type="submit" value="Logout" class="btn mt-2" />
+
+  </form></li>
+</ul>
+<div class="container">
+<br>
+  <h3>Student's Update Form</h3>
+  <hr>
+
+  <form action="#" th:action="@{/students/update}"
+        th:object="${student}" method="POST">
+
+    <!-- Hidden form field to handle update -->
+
+    <input type="hidden" th:field="*{studentId}"/>
+
+    First Name:
+    <div class="form-inline">
+    <input type="text" th:field="*{firstName}"
+           class="form-control mb-4 col-4" placeholder="First name">
+      <span th:if="${#fields.hasErrors('firstName')}"
+            th:errors="*{firstName}"
+            class="badge badge-danger ml-2 mb-4"></span>
+    </div>
+    Last Name:
+    <div class="form-inline">
+    <input type="text" th:field="*{lastName}"
+           class="form-control mb-4 col-4" placeholder="Last name">
+      <span th:if="${#fields.hasErrors('lastName')}"
+            th:errors="*{lastName}"
+            class="badge badge-danger ml-2 mb-4"></span>
+    </div>
+    Email:
+    <div class="form-inline">
+    <input type="text" th:field="*{email}"
+           class="form-control mb-4 col-4" placeholder="Email">
+    <span th:if="${#fields.hasErrors('email')}"
+          th:errors="*{email}"
+          class="badge badge-danger ml-2 mb-4"></span>
+    </div>
+
+
+
+    <button type="submit" class="btn btn-info col-2">Update</button>
+
+  </form>
+
+  <hr>
+  <a th:href="@{/students/list}">Back to Students List</a>
+
+</div>
+</body>
+
+</html>

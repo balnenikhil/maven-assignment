@@ -1,0 +1,43 @@
+package com.spring.app.controller;
+
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+class LoginControllerTest {
+
+    @InjectMocks
+    LoginController loginController;
+
+    @Autowired
+    WebApplicationContext webApplicationContext;
+
+
+
+
+    @Test
+    void LoginController() throws Exception {
+
+
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
+        mockMvc.perform(get("/customLoginPage")).andExpect(status().is(200));
+        mockMvc.perform(get("/index")).andExpect(status().is(200));
+        mockMvc.perform(get("/accessDeniedPage")).andExpect(status().is(200));
+
+
+    }
+
+
+}
